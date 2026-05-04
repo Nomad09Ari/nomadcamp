@@ -1,0 +1,62 @@
+<% layout('layouts/boilerplate') %>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 offset-md-3 col-xl-4 offset-xl-4">
+      <div class="card shadow">
+        <img
+          src="https://images.pexels.com/photos/8650162/pexels-photo-8650162.jpeg"
+          alt=""
+          class="card-img-top"
+        />
+        <div class="card-body">
+          <h5 class="card-title">ユーザー登録</h5>
+          <form
+            action="/register"
+            method="POST"
+            class="validated-form"
+            novalidate
+          >
+            <div class="mb-3">
+              <label class="form-label" for="username">ユーザー名</label>
+              <input
+                class="form-control"
+                type="text"
+                name="username"
+                id="username"
+                autofocus
+                required
+              />
+              <div class="valid-feedback">OK!</div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="email">メールアドレス</label>
+              <input
+                class="form-control"
+                type="email"
+                name="email"
+                id="email"
+                required
+              />
+              <div class="valid-feedback">OK!</div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="password">パスワード</label>
+              <input
+                class="form-control"
+                type="password"
+                name="password"
+                id="password"
+                required
+              />
+              <div class="valid-feedback">OK!</div>
+            </div>
+            <div class="d-grid">
+              <button class="btn btn-success">登録する</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
