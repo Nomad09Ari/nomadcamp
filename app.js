@@ -71,13 +71,11 @@ const store = MongoStore.create({
 // });
 
 const sessionConfig = {
-  // store,
+  store,
   secret: secret,
   resave: false,
   saveUninitialized: false,
   cookie: {
-    // secure: false,
-    // process.env.NODE_ENV === "production",
     httpOnly: true,
     secure: false,
     // secure: process.env.NODE_ENV === "production",
