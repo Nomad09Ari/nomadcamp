@@ -50,13 +50,14 @@ app.use(express.static(path.join(__dirname, "public")));
 
 const secret = process.env.SECRET || "dev_secret_only";
 
-const isProduction = process.env.NODE_ENV === "production";
+// const isProduction = process.env.NODE_ENV === "production";
 
 const store = MongoStore.create({
   mongoUrl: dbUrl,
-  ...(isProduction && {
-    crypto: { secret },
-  }),
+  dbName: "nomadcamp",
+  // ...(isProduction && {
+  //   crypto: { secret },
+  // }),
   touchAfter: 24 * 3600,
 });
 
