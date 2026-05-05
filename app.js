@@ -18,18 +18,14 @@ const userRoutes = require("./routes/users");
 const campgroundRoutes = require("./routes/campgrounds");
 const reviewRoutes = require("./routes/reviews");
 
-// const dbURL = process.env.DB_URL;
+const dbUrl =
+  process.env.NODE_ENV === "production"
+    ? process.env.DB_URL
+    : "mongodb://localhost:27017/nomadcamp";
 
 mongoose
-  .connect("mongodb://localhost:27017/nomadcamp", {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-    useFindAndModify: false,
-  })
-  .then(() => {
-    console.log("MongoDBコネクションOK！！");
-  })
+  .connect(dbUrl)
+  .then(() => console.log("MongoDBコネクションOK！！"))
   .catch((err) => {
     console.log("MongoDBコネクションエラー！！！");
     console.log(err);
@@ -45,12 +41,14 @@ app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "public")));
 
+const secret = process.env.SECRET || "dev_secret_only";
+
 const sessionConfig = {
-  secret: process.env.SECRET || "mysecret",
+  secret: secret,
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure: true,
+    secure: process.env.NODE_ENV === "production",
     httpOnly: true,
     maxAge: 1000 * 60 * 60 * 24 * 7,
   },
@@ -94,6 +92,8 @@ app.use((err, req, res, next) => {
   res.status(statusCode).render("error", { err });
 });
 
-app.listen(3000, () => {
-  console.log("ポート3000でリクエスト待受中...");
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
