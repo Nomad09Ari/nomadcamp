@@ -24,7 +24,7 @@ const dbUrl =
     ? process.env.DB_URL
     : "mongodb://localhost:27017/nomadcamp";
 
-console.log("dbUrl:", dbUrl);
+// console.log("dbUrl:", dbUrl);
 
 mongoose
   .connect(dbUrl)
@@ -36,9 +36,9 @@ mongoose
 
 const app = express();
 
-if (process.env.NODE_ENV === "production") {
-  app.set("trust proxy", 1);
-}
+// if (process.env.NODE_ENV === "production") {
+//   app.set("trust proxy", 1);
+// }
 
 app.engine("ejs", ejsMate);
 app.set("view engine", "ejs");
@@ -50,15 +50,15 @@ app.use(express.static(path.join(__dirname, "public")));
 
 const secret = process.env.SECRET || "dev_secret_only";
 
-const isProduction = process.env.NODE_ENV === "production";
+// const isProduction = process.env.NODE_ENV === "production";
 
-const store = MongoStore.create({
-  mongoUrl: dbUrl,
-  ...(isProduction && {
-    crypto: { secret },
-  }),
-  touchAfter: 24 * 3600,
-});
+// const store = MongoStore.create({
+//   mongoUrl: dbUrl,
+//   ...(isProduction && {
+//     crypto: { secret },
+//   }),
+//   touchAfter: 24 * 3600,
+// });
 
 // const store = MongoStore.create({
 //   mongoUrl: dbUrl,
@@ -69,7 +69,7 @@ const store = MongoStore.create({
 // });
 
 const sessionConfig = {
-  store,
+  // store,
   secret: secret,
   resave: false,
   saveUninitialized: false,
