@@ -24,9 +24,7 @@ const dbUrl =
     ? process.env.DB_URL
     : "mongodb://localhost:27017/nomadcamp";
 
-console.log("NODE_ENV:", process.env.NODE_ENV);
-console.log("DB_URL exists:", !!process.env.DB_URL);
-console.log("dbUrl:", dbUrl);
+
 
 mongoose
   .connect(dbUrl)
@@ -65,14 +63,6 @@ const store = MongoStore.create({
 store.on("error", (e) => {
   console.log("SESSION STORE ERROR:", e);
 });
-
-// const store = MongoStore.create({
-//   mongoUrl: dbUrl,
-//   // crypto: {
-//   //   secret,
-//   // },
-//   touchAfter: 24 * 3600, // time period in seconds
-// });
 
 const sessionConfig = {
   store,
