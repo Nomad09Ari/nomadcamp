@@ -62,6 +62,10 @@ const store = MongoStore.create({
   touchAfter: 24 * 3600,
 });
 
+store.on("error", (e) => {
+  console.log("SESSION STORE ERROR:", e);
+});
+
 // const store = MongoStore.create({
 //   mongoUrl: dbUrl,
 //   // crypto: {
