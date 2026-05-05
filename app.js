@@ -5,6 +5,7 @@ const path = require("path");
 const mongoose = require("mongoose");
 const ejsMate = require("ejs-mate");
 const session = require("express-session");
+const MongoStore = require("connect-mongo");
 const { campgroundSchemas, reviewSchema } = require("./schemas");
 const flash = require("connect-flash");
 const ExpressError = require("./utils/ExpressError");
@@ -23,6 +24,8 @@ const dbUrl =
     ? process.env.DB_URL
     : "mongodb://localhost:27017/nomadcamp";
 
+console.log("dbUrl:", dbUrl);
+
 mongoose
   .connect(dbUrl)
   .then(() => console.log("MongoDBコネクションOK！！"))
@@ -32,6 +35,10 @@ mongoose
   });
 
 const app = express();
+
+if (process.env.NODE_ENV === "production") {
+  app.set("trust proxy", 1);
+}
 
 app.engine("ejs", ejsMate);
 app.set("view engine", "ejs");
@@ -43,13 +50,34 @@ app.use(express.static(path.join(__dirname, "public")));
 
 const secret = process.env.SECRET || "dev_secret_only";
 
+const isProduction = process.env.NODE_ENV === "production";
+
+const store = MongoStore.create({
+  mongoUrl: dbUrl,
+  ...(isProduction && {
+    crypto: { secret },
+  }),
+  touchAfter: 24 * 3600,
+});
+
+// const store = MongoStore.create({
+//   mongoUrl: dbUrl,
+//   // crypto: {
+//   //   secret,
+//   // },
+//   touchAfter: 24 * 3600, // time period in seconds
+// });
+
 const sessionConfig = {
+  store,
   secret: secret,
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure: process.env.NODE_ENV === "production",
+    // secure: false,
+    // process.env.NODE_ENV === "production",
     httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
     maxAge: 1000 * 60 * 60 * 24 * 7,
   },
 };

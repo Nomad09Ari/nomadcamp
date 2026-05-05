@@ -25,10 +25,14 @@ module.exports.renderLogin = (req, res) => {
 };
 
 module.exports.login = (req, res) => {
-  req.flash("success", "おかえりなさい！！");
-  const redirectUrl = req.session.returnTo || "/campgrounds";
-  delete req.session.returnTo;
-  res.redirect(redirectUrl);
+    console.log("LOGIN USER:", req.user);
+    console.log("SESSION:", req.session);
+    console.log("AUTH:", req.isAuthenticated());
+    req.flash("success", "おかえりなさい！！");
+    const redirectUrl = req.session.returnTo || "/campgrounds";
+    delete req.session.returnTo;
+
+    return res.redirect(redirectUrl);
 };
 
 // module.exports.logout = (req, res) => {
