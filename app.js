@@ -77,7 +77,8 @@ const sessionConfig = {
     // secure: false,
     // process.env.NODE_ENV === "production",
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
+    secure: false,
+    // secure: process.env.NODE_ENV === "production",
     maxAge: 1000 * 60 * 60 * 24 * 7,
   },
 };
