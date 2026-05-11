@@ -8,9 +8,39 @@ const Campground = require("../models/campground");
 
 const { cloudinary } = require("../cloudinary");
 
+//正規表現メタ文字をエスケープする関数
+function escapeRegex(text) {
+  return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+}
+
+
 module.exports.index = async (req, res) => {
-  const campgrounds = await Campground.find({});
-  res.render("campgrounds/index", { campgrounds });
+  //クエリを取得
+  const { q } = req.query;
+
+  let campgrounds;
+
+  //q が存在して空白だけじゃない場合
+  if (q && q.trim !== "") {
+    //メタ文字をエスケープして正規表現を作成
+    const escapedQuery = escapeRegex(q.trim());
+
+    //大文字小文字を区別せずに検索する正規表現を作成
+    const regex = new RegExp(escapedQuery, "i");
+
+    //OR検索を行うクエリを作成
+    campgrounds = await Campground.find({
+      $or: [{ title: regex }, { description: regex }, { location: regex }],
+    });
+  } else {
+    //クエリが存在しないか空白だけの場合は全てのキャンプ場を取得
+    campgrounds = await Campground.find({});
+  }
+
+  res.render("campgrounds/index", {
+    campgrounds,
+    searchQuery: q || "",
+  });
 };
 
 module.exports.renderNewForm = (req, res) => {
@@ -44,11 +74,10 @@ module.exports.createCampground = async (req, res) => {
 
   // console.log("GEODATA:", geoData);
 
-  // ↑↑↑ここを追加
   const campground = new Campground(req.body.campground);
-  // ↓↓↓ここを追加
+
   campground.geometry = geoData.features[0].geometry;
-  // ↑↑↑ここを追加
+
   campground.images = req.files.map((f) => ({
     url: f.path,
     filename: f.filename,
