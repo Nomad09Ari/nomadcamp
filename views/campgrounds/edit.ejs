@@ -65,6 +65,23 @@
         <div class="valid-feedback">OK!</div>
       </div>
       <div class="mb-3">
+        <label for="category" class="form-label">カテゴリ</label>
+        <select class="form-select" 
+                name="campground[category]" id="category" 
+                required>
+      
+        <% for(let cat of campgroundCategories) { %>
+          <option value="<%= cat %>"
+            <%= campground.category === cat ? "selected" : ""  %>>
+            <%= cat  %>
+          </option>
+        <% } %>
+        
+        </select>
+        <div class="valid-feedback">OK!</div>
+      </div>
+
+      <div class="mb-3">
         <label for="image" class="form-label">画像の追加アップロード</label>
         <input
           class="form-control"

@@ -41,6 +41,11 @@ const campgroundSchema = new Schema(
         ref: "Review",
       },
     ],
+    category: {
+      type: String,
+      enum: ["山岳", "海辺", "森林", "湖畔", "川沿い", "高原"],
+      required: true,
+    },
   },
   opts
 );

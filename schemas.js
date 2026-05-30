@@ -31,6 +31,9 @@ module.exports.campgroundSchema = Joi.object({
     // image: Joi.string().required(),
     location: Joi.string().required().escapeHTML(),
     description: Joi.string().required().escapeHTML(),
+    category: Joi.string()
+      .required()
+      .valid("山岳", "海辺", "森林", "湖畔", "川沿い", "高原"),
   }).required(),
   deleteImages: Joi.array(),
 });

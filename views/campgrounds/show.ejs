@@ -43,6 +43,11 @@
           登録者：<%= campground.author.username %>
         </li>
         <li class="list-group-item">¥<%= campground.price %>/泊</li>
+        <% if(campground.category) { %>
+        <li class="list-group-item">
+          <span class="badge bg-secondary">カテゴリ：<%= campground.category %></span>
+        </li>
+        <% } %>
       </ul>
       <% if(currentUser && campground.author.equals(currentUser._id)) { %>
       <div class="card-body">
@@ -58,7 +63,7 @@
         </form>
       </div>
       <% } %>
-      <div class="card-footer text-muted">2 days ago</div>
+      <!-- <div class="card-footer text-muted">2 days ago</div> -->
     </div>
   </div>
   <div class="col-6">

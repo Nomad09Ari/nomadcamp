@@ -19,6 +19,8 @@ mongoose
 
 const sample = (array) => array[Math.floor(Math.random() * array.length)];
 
+const categories = ["山岳", "海辺", "森林", "湖畔", "川沿い", "高原"];
+
 const seedDB = async () => {
   await Campground.deleteMany({});
   for (let i = 0; i < 50; i++) {
@@ -48,6 +50,7 @@ const seedDB = async () => {
           filename: "NomadCamp/vxoo12zm4ram21smpfay",
         },
       ],
+      category: categories[Math.floor(Math.random() * categories.length)],
     });
     await camp.save();
   }

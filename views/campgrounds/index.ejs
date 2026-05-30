@@ -70,6 +70,11 @@
         <p class="card-text">
           <small class="text-muted"><%= campground.location %></small>
         </p>
+        <% if(campground.category) { %>
+              <span class="badge bg-secondary">
+                <%= campground.category  %>
+              </span>
+        <% } %>
         <a class="btn btn-secondary" href="/campgrounds/<%= campground._id %>"
           ><%= campground.title %>の詳細</a
         >

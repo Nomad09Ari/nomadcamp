@@ -95,6 +95,15 @@ app.use((req, res, next) => {
   next();
 });
 
+app.locals.campgroundCategories = [
+  "山岳",
+  "海辺",
+  "森林",
+  "湖畔",
+  "川沿い",
+  "高原",
+];
+
 app.get("/", (req, res) => {
   res.render("home");
 });
